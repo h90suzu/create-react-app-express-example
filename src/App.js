@@ -1,18 +1,63 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import request from 'superagent';
 import './App.css';
 
+import CreateTodoInput from './CreateTodoInput';
+import TodoItem from './TodoItem';
+
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      todos: [],
+    };
+
+    this.handleCreateTodo = this.handleCreateTodo.bind(this);
+    this.handleDeleteTodo = this.handleDeleteTodo.bind(this);
+  }
+
+  componentDidMount() {
+    request
+      .get('/api/todos')
+      .end((err, res) => {
+        this.setState({ todos: res.body.todos });
+      });
+  }
+
+  handleCreateTodo(title) {
+    request
+      .post('/api/todos')
+      .send({ title })
+      .end((err, res) => {
+        this.setState({ todos: res.body.todos });
+      });
+  }
+
+  handleDeleteTodo(id) {
+    request
+      .delete(`/api/todos/${id}`)
+      .end((err, res) => {
+        this.setState({ todos: res.body.todos });
+      });
+  }
+
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <CreateTodoInput
+          handleSubmit={this.handleCreateTodo}
+        />
+        <ul>
+          {this.state.todos.map((todo) =>
+            <TodoItem
+              key={todo.id}
+              {...todo}
+              handleDelete={this.handleDeleteTodo}
+            />
+          )}
+        </ul>
       </div>
     );
   }

@@ -2,16 +2,25 @@
   "name": "create-react-app-express-example",
   "version": "0.0.1",
   "private": true,
+  "proxy": "http://localhost:4000/",
   "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
+    "npm-run-all": "^3.1.0",
     "react-scripts": "0.4.1"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "node-uuid": "^1.4.7",
     "react": "^15.3.1",
-    "react-dom": "^15.3.1"
+    "react-dom": "^15.3.1",
+    "superagent": "^2.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm-run-all --parallel server devBuild",
+    "devBuild": "react-scripts start",
+    "server:": "babel-node server",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
