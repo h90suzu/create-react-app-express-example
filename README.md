@@ -16,3 +16,7 @@ npm start
 
 - 開発環境では、APIサーバーにプロキシする。（package.jsonのproxy設定を参照）
 - 本番環境では、```npm run buld```でビルドしたJSファイルを配信すれば良い。
+
+## Reference
+
+- [How to get "create-react-app" to work with your API](https://www.fullstackreact.com/articles/using-create-react-app-with-a-server/)
